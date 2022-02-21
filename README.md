@@ -174,24 +174,6 @@ mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db < initdb.sql
 docker logs -f guacamole
 ~~~
 
-* 원인
-~~~
-### Error querying database.  Cause: java.sql.SQLException: Access denied for user 'guacamole_user'@'guacamole.ubuntu_default'(using password: YES)
-~~~
-
-* 해결
-~~~
-docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db -e \ 
-"CREATE USER 'guacamole_user'@'guacamole.ubuntu_default' IDENTIFIED BY 'guacamolePassword'"
-
-docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db -e \ 
-"GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'guacamole.ubuntu_default'"
-
-docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db -e \ 
-"FLUSH PRIVILEGES"
-~~~
-
-
 
 
 # 3. amazon linux2 VNC 
