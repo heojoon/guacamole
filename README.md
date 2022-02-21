@@ -98,15 +98,15 @@ docker-compose up -d
 
 * 1.  DB와 User를 수동으로 생성합니다.
 
-  * 172.29.% , localhost 2개 다 필요합니다. - 내부 접속 용도 , 외부 접속 용도
+  * 172.% , localhost 2개 다 필요합니다. - 내부 접속 용도 , 외부 접속 용도
 
 ~~~mysql
 CREATE DATABASE guacamole_db;
 CREATE USER 'guacamole_user'@'localhost' IDENTIFIED BY 'guacamolePassword';
-CREATE USER 'guacamole_user'@'172.29.%' IDENTIFIED BY 'guacamolePassword';
+CREATE USER 'guacamole_user'@'172.%' IDENTIFIED BY 'guacamolePassword';
 
-GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'172.29.%';
-GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'localhost';
+GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'172.%';
+GRANT ALL ON guacamole_db.* TO 'guacamole_user'@'localhost';
 FLUSH PRIVILEGES;
 ~~~
 
@@ -127,7 +127,7 @@ docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > initd
 * 3. initdb 스크립트를 수행합니다.
 
 ~~~bash
-docker run --rm mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db < initdb.sql
+docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db < initdb.sql
 ~~~
 
 * 4. initdb 스크립트가 정상적으로 수행되었는지 확인합니다.
