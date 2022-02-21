@@ -167,6 +167,32 @@ mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db < initdb.sql
 * 로그인 화면이 뜨고 위의 ID/PW로 로그인 되면 성공입니다.
 
 
+## 2.x. 트러블슈팅
+
+* 자주 접했던 500에러가 발생했을 경우 로그 확인
+~~~
+docker logs -f guacamole
+~~~
+
+* 원인
+~~~
+### Error querying database.  Cause: java.sql.SQLException: Access denied for user 'guacamole_user'@'guacamole.ubuntu_default'(using password: YES)
+~~~
+
+* 해결
+~~~
+docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db -e \ 
+"CREATE USER 'guacamole_user'@'guacamole.ubuntu_default' IDENTIFIED BY 'guacamolePassword'"
+
+docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db -e \ 
+"GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user'@'guacamole.ubuntu_default'"
+
+docker exec -i mysql mysql -u'guacamole_user' -p'guacamolePassword' guacamole_db -e \ 
+"FLUSH PRIVILEGES"
+~~~
+
+
+
 
 # 3. amazon linux2 VNC 
 
