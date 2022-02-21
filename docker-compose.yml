@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  guacd:
+    container_name: guacd
+    image: guacamole/guacd
+    ports:
+      - 4822:4822
+    environment:
+      GUACD_HOSTNAME: guacd
+      GUACD_PORT: 4822
+      GUACD_LOG_LEVEL: debug
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7.37
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    volumes:
+      - /app/mysql/data:/var/lib/mysql
+      - /app/mysql/etc/mysql:/etc/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootPassword
+
+  guacamole:
+    depends_on:
+      - guacd
+      - mysql
+    links:
+      - guacd:guacd
+      - mysql:mysql
+    container_name: guacamole
+    image: guacamole/guacamole
+    ports:
+      - 8080:8080
+    environment:
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: guacamolePassword
+      GUACD_HOSTNAME: guacd
+      GUACD_PORT: 4822
+      MYSQL_HOSTNAME: mysql
+      MYSQL_PORT: 3306
+      MYSQL_SSL_MODE: disabled
