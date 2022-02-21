@@ -45,7 +45,16 @@ function initGucamoleDB() {
 function main() {
         installDockerCompose
         downloadYaml
-        [ -e "docker-compose.yml" ] && sudo docker-compose up -d || echo "No file docker-compose.yml"
+        # Run docker-compose
+        if [ -e "docker-compose.yml" ] ; then
+                sudo docker-compose up -d
+        else
+                echo "[Error] No file docker-compose.yml"
+                exit 1
+        fi
+        createDBandUser
+        initGucamoleDB
+        docker-compose restart
 }
 
 
