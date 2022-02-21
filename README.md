@@ -7,9 +7,13 @@
 * Apache Guacamole 는 클라이언트 없이 웹브라우저로 원격 접속을 가능하게 해주는 게이트웨이 이며 지원하는 프로토콜은 VNC,RDP ,SSH 등이 있습니다. 
 
 
+## 1.1. Quick Start
+* 2번의 과정을 스크립트 작성하였습니다. 빠르게 실행하고 싶으시면 아래 명령어를 입력하십시오.
+~~~
+curl https://raw.githubusercontent.com/heojoon/guacamole/main/install_guacamole.sh | bash
+~~~
 
 # 2. Installation
-
 * 빠른 설치를 위해서 docker-compose를 사용하였습니다. apache guacamole 공식 홈페이지에는 single docker 를 이용한 설치 가이드만 있습니다.
 * 구성을 위한 기본 컴포넌트는 guacd , mysql ,guacamole 이 필요합니다.
 
