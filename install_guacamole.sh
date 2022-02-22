@@ -43,20 +43,31 @@ function initGucamoleDB() {
 
 # Main fucntion
 function main() {
+        echo "########### Installation Gucamole #################"
+        echo "## 1. Install docker-compose"
         installDockerCompose
+        
+        echo "## 2.Download docker-compose yaml file"
         downloadYaml
-        # Run docker-compose
+        
+        echo "## Run docker-compose"
+        ## Run docker-compose
         if [ -e "docker-compose.yml" ] ; then
                 sudo docker-compose up -d
         else
                 echo "[Error] No file docker-compose.yml"
                 exit 1
         fi
+        echo "## 3. Create Mysql DB and User for Guacamole" ; sleep 3
         createDBandUser
+        
+        echo "## 4. gucamole init setting" ; sleep 5
         initGucamoleDB
+        
+        echo "## docker-compose restart"  ; sleep 2
         docker-compose restart
+        echo "Done"
 }
 
-
-# execution
+### execution
 main
