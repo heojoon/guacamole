@@ -13,7 +13,10 @@
 curl https://raw.githubusercontent.com/heojoon/guacamole/main/install_guacamole.sh | bash
 ~~~
 
+
+
 # 2. Installation
+
 * 빠른 설치를 위해서 docker-compose를 사용하였습니다. apache guacamole 공식 홈페이지에는 single docker 를 이용한 설치 가이드만 있습니다.
 * 구성을 위한 기본 컴포넌트는 guacd , mysql ,guacamole 이 필요합니다.
 
@@ -269,17 +272,97 @@ https://guacamole.apache.org/doc/gug/configuring-guacamole.html
 
 
 
-# 4. windows EC2 
 
-* IP/Port
+
+# 5. ubuntu VNC 
+
+* 설치 환경
+  * Spec : Ubuntu 20.04.3 LTS
+
+
+
+* install x-windows package (mate-desktop)
 
 ~~~bash
-public ip : 1.2.3.4
-port : 3389
-private ip : 172.1.1.2
+sudo apt-get update
+sudo apt-get install mate-desktop
 ~~~
 
-# 5. SSHd Server for win
+
+
+* tasksel 를 통한 설치
+
+~~~bash
+sudo apt install tasksel
+sudo tasksel install ubuntu-mate-desktop
+~~~
+
+
+
+* 모든 사용자에 대해 MATE 정의
+
+~~~bash
+sudo bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
+/etc/X11/Xvnc-session
+~~~
+
+
+
+* tigervnc 설치
+
+~~~bash
+apt-get -y install tigervnc-standalone-server
+~~~
+
+
+
+* /etc/vnc.conf 수정
+  * x-window session을 기본 Xvnc에서 mate로 변경
+
+~~~bash
+# 주석 처리 및 수정 
+#$vncStartup = "/etc/X11/Xvnc-session";
+->
+$vncStartup = "/usr/bin/mate-session";
+~~~
+
+
+
+* vnc 구동
+
+~~~bash
+# vnc 패스워드 구성 (나는 vnc1234로 설정)
+vncpasswd
+
+# vnc display 번호 설정, 구동
+vncserver -localhost no :1
+~~~
+
+
+
+* vnc 종료
+
+~~~bash
+# vncserver 리스트 확인
+$ vncserver -list
+
+TigerVNC server sessions:
+
+X DISPLAY #     RFB PORT #      PROCESS ID
+:1              5901            82836
+
+# vncserver 삭제
+$ vncserver -kill :1
+~~~
+
+
+
+* vnc를 서비스로 등록하기 
+  * TBD
+
+
+
+# 6. SSHd Server for win
 
 *  개요
 
@@ -329,7 +412,7 @@ Port ????22
 netstat -na -p tcp   
  TCP    0.0.0.0:???22          0.0.0.0:0              LISTENING
 ~~~
-  
+
 
 * ID : Administrator / PW : **********
 
