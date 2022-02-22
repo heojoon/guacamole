@@ -274,7 +274,7 @@ https://guacamole.apache.org/doc/gug/configuring-guacamole.html
 
 
 
-# 5. ubuntu VNC 
+# 4. ubuntu VNC 
 
 * 설치 환경
   * Spec : Ubuntu 20.04.3 LTS
@@ -362,7 +362,7 @@ $ vncserver -kill :1
 
 
 
-# 6. SSHd Server for win
+# 5. SSHd Server for win
 
 *  개요
 
