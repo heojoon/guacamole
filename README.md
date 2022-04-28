@@ -430,3 +430,10 @@ netstat -na -p tcp
 ~~~
 sudo yum -y install remmina
 ~~~
+
+
+# 원도우 RDP 연결 설정
+
+- Security mode : `Any`
+- Disable Authentication : ''
+- Ignore server certificate : `v`
