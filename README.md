@@ -423,3 +423,10 @@ netstat -na -p tcp
 
 * Port : ?????
 
+
+
+
+# 리눅스에서 RDP Clinet 설치
+~~~
+sudo yum -y install remmina
+~~~
