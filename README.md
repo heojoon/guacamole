@@ -230,17 +230,22 @@ sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@.se
 
 # systemd 스크립트 수정
 vi /usr/lib/systemd/system/vncserver@.service
-
-  # VNC를 통해 로그인할 user id 로 변경 (나는 ssm-user로 변경)
+------------------------------------------------------------
+  # VNC를 통해 로그인할 user id 로 변경 : root 
   ExecStart=/usr/bin/vncserver_wrapper <USER-NAME> %i
   ->
-  ExecStart=/usr/bin/vncserver_wrapper ssm-user %i
+  ExecStart=/usr/bin/vncserver_wrapper root %i
+------------------------------------------------------------
 
+# systemctl 에 등록 및 재시작
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@:1
 
 sudo systemctl restart vncserver@:1
 sudo systemctl status vncserver@:1
+
+# 제대로 구동하는지 확인
+vncserver -list
 ~~~
 
   
