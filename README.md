@@ -224,10 +224,17 @@ vncpasswd
 vncserver :1
 
 # vncserver 서비스 등록 
+
 # - 위 과정의 vncserver :1 이 있기 때문에 아래 내용의 서비스가 구동되지 않음
 sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@.service
 
-# 아래 "systemd 스크립트 수정" 과정을 진행
+# systemd 스크립트 수정
+vi /usr/lib/systemd/system/vncserver@.service
+
+  # VNC를 통해 로그인할 user id 로 변경 (나는 ssm-user로 변경)
+  ExecStart=/usr/bin/vncserver_wrapper <USER-NAME> %i
+  ->
+  ExecStart=/usr/bin/vncserver_wrapper ssm-user %i
 
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@:1
@@ -235,19 +242,6 @@ sudo systemctl enable vncserver@:1
 sudo systemctl restart vncserver@:1
 sudo systemctl status vncserver@:1
 ~~~
-
-
-
-* systemd 스크립트 수정
-
-  * /usr/lib/systemd/system/vncserver@.service
-
-  ~~~bash
-  # VNC를 통해 로그인할 user id 로 변경 (나는 ssm-user로 변경)
-  ExecStart=/usr/bin/vncserver_wrapper <USER-NAME> %i
-  ->
-  ExecStart=/usr/bin/vncserver_wrapper ssm-user %i
-  ~~~
 
   
 
@@ -361,10 +355,8 @@ $ vncserver -kill :1
 ~~~
 
 
-
 * vnc를 서비스로 등록하기 
   * TBD
-
 
 
 # 5. SSHd Server for win
